@@ -1,0 +1,40 @@
+.task-filter {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	right: 0;
+	left: 0;
+}
+
+@media (max-width: 430px) {
+	.task-filter {
+		bottom: 10px;
+	}
+}
+
+.task-filter__button {
+	display: inline-block;
+	color: inherit;
+	margin: 3px;
+	padding: 3px 7px;
+	text-decoration: none;
+	border: 1px solid transparent;
+	border-radius: 3px;
+}
+
+.task-filter__button:not(.selected) {
+	cursor: pointer;
+}
+
+.task-filter__button--selected {
+	border-color: rgba(175, 47, 47, 0.2);
+}
+
+.task-filter__item {
+	display: inline;
+	cursor: default;
+}
+
+.task-filter__item:hover .task-filter__button {
+	border-color: rgba(175, 47, 47, 0.1);
+}

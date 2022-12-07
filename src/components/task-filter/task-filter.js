@@ -1,16 +1,18 @@
 import React from "react";
 
+import "./task-filter.css";
+
 const TaskFilter = () => {
     return (
-        <ul className="filters">
-            <li>
-                <button className="selected">All</button>
+        <ul className="task-filter">
+            <li className="task-filter__item">
+                <button className="todo-app__button task-filter__button task-filter__button--selected">All</button>
             </li>
-            <li>
-                <button>Active</button>
+            <li className="task-filter__item">
+                <button className="todo-app__button task-filter__button">Active</button>
             </li>
-            <li>
-                <button>Completed</button>
+            <li className="task-filter__item">
+                <button className="todo-app__button task-filter__button">Completed</button>
             </li>
         </ul>
     );

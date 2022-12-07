@@ -1,4 +1,6 @@
 import React from "react";
+import { formatDistanceToNow } from 'date-fns';
+
 import "./task.css";
 
 const Task = ({task}) => {
@@ -10,24 +12,23 @@ const Task = ({task}) => {
     let editingInput = null;
 
     if (taskProps.isCompleted) {
-      //taskClass = "completed";
       descriptionClass = "task__description task__description--completed";
     } else if (taskProps.isEditing) {
       taskClass = "task--editing";
-      editingInput = <input type="text" className="task__edit" value="Editing task" />;
+      editingInput = <input type="text" className="todo-app__input task__edit" value="Editing task" />;
       viewClass = "task__view--editing";
     }
     
     return (
       <li key={id} className={taskClass}>
         <div className={viewClass}>
-          <input className="task__toggle" type="checkbox" />
+          <input className="todo-app__input task__toggle" type="checkbox" />
           <label className="task__label">
             <span className={descriptionClass}>{ taskProps.description }</span>
-            <span className="task__created-ago">created 17 seconds ago</span>
+            <span className="task__created-ago">{formatDistanceToNow(new Date(2014, 6, 2), { addSuffix: true })}</span>
           </label>
-          <button className="task__icon task__icon-edit"></button>
-          <button className="task__icon task__icon-destroy"></button>
+          <button className="task__icon task__icon-edit todo-app__button"></button>
+          <button className="task__icon task__icon-destroy todo-app__button"></button>
         </div>
         { editingInput }
       </li>
