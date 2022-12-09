@@ -23,6 +23,7 @@ export default class TodoApp extends React.Component {
       ],
       newTask: { id: this.idCounter, description: "", isCompleted: false, isEditing: false},
       filter: TaskFilter.STATE_ALL,
+      activeCount: 4,
     };
   }
 
@@ -42,7 +43,11 @@ export default class TodoApp extends React.Component {
         </header>
         <section className="todo-app__main">
           <TaskList tasks={filteredTasks} onDelete={this.onDeleteHandler} onToggleComplete={this.onToggleCompleteTask} />
-          <Footer filter={this.state.filter} onFilterSwitch={this.onFilterSwitch}/>
+          <Footer filter={this.state.filter} 
+            onFilterSwitch={this.onFilterSwitch} 
+            onClearCompletedClicked={this.onClearCompletedClicked} 
+            activeCount={this.state.activeCount}
+          />
         </section>
       </section>
     )
@@ -51,12 +56,12 @@ export default class TodoApp extends React.Component {
   onDeleteHandler = taskId => {
     this.setState((state) => {
       const deletingIndex = state.tasks.findIndex(task => task.id === taskId);
+      let newTasksList = deletingIndex === -1 ? [...state.tasks.slice()] : 
+        [ ...state.tasks.slice(0, deletingIndex), ...state.tasks.slice(deletingIndex + 1) ]
 
-      return deletingIndex === -1 ? {tasks: [...state.tasks.slice()]} : {
-        tasks: [
-          ...state.tasks.slice(0, deletingIndex), 
-          ...state.tasks.slice(deletingIndex + 1)
-        ]
+      return {
+        tasks: newTasksList,
+        activeCount: this.countActiveTasks(newTasksList),
       };
     });
   }
@@ -67,7 +72,10 @@ export default class TodoApp extends React.Component {
       let toggledTask = tasksCopy.find(task => task.id === taskId);
       toggledTask.isCompleted = !toggledTask.isCompleted;
 
-      return {tasks: tasksCopy};
+      return {
+        tasks: tasksCopy,
+        activeCount: this.countActiveTasks(tasksCopy),
+      };
     });
   }
 
@@ -76,7 +84,10 @@ export default class TodoApp extends React.Component {
       let newTaskCopy = JSON.parse(JSON.stringify(state.newTask));
       newTaskCopy.description = e.target.value;
 
-      return {newTask: newTaskCopy};
+      return {
+        newTask: newTaskCopy,
+        activeCount: this.countActiveTasks(state.tasks),
+      };
     });
   }
 
@@ -93,6 +104,7 @@ export default class TodoApp extends React.Component {
       return {
         tasks: tasksCopy,
         newTask: { id: ++this.idCounter, description: "", isCompleted: false, isEditing: false},
+        activeCount: this.countActiveTasks(tasksCopy),
       }
     });
   }
@@ -102,5 +114,20 @@ export default class TodoApp extends React.Component {
       return {filter: newFilterState};
     });
   }
+
+  onClearCompletedClicked = () => {
+    this.setState((state) => {
+      let tasksCopy = JSON.parse(JSON.stringify(state.tasks));
+      tasksCopy = tasksCopy.filter(task => task.isCompleted === false);
+      return {tasks: tasksCopy};
+    });
+  }
+
+  countActiveTasks = tasksList => {
+    return tasksList.reduce((acc, task) => {
+      acc += !task.isCompleted ? 1 : 0;
+      return acc;
+    },0);
+  } 
 };
 
