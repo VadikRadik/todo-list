@@ -3,6 +3,11 @@ import TaskFilter from "../task-filter"
 import "./footer.css";
 
 export default class Footer extends React.Component {
+    static defaultProps = {
+        onFilterSwitch: () => {}, 
+        onClearCompletedClicked: () => {},
+    }
+
     render() {
         return (
             <footer className="footer">

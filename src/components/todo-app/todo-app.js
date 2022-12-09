@@ -14,14 +14,14 @@ export default class TodoApp extends React.Component {
     super(props);
     this.state = {
       tasks: [
-        { id: 0, description: "Completed task", isCompleted: true, isEditing: false},
-        { id: 1, description: "Editing task", isCompleted: false, isEditing: true},
-        { id: 2, description: "Active task", isCompleted: false, isEditing: false},
-        { id: 3, description: "Active task", isCompleted: false, isEditing: false},
-        { id: 4, description: "Active task", isCompleted: true, isEditing: false},
-        { id: 5, description: "Active task", isCompleted: false, isEditing: false},
+        { id: 0, description: "Completed test task", isCompleted: true, isEditing: false, createdTs: 1670608222740},
+        { id: 1, description: "Press enter for finish editing", isCompleted: false, isEditing: true, createdTs: 1670608222740},
+        { id: 2, description: "Active test task 1", isCompleted: false, isEditing: false, createdTs: 1670608222740},
+        { id: 3, description: "Active test task 2", isCompleted: false, isEditing: false, createdTs: 1670608222740},
+        { id: 4, description: "Active test task 3", isCompleted: true, isEditing: false, createdTs: 1670608222740},
+        { id: 5, description: "Active test task 4", isCompleted: false, isEditing: false, createdTs: 1670608222740},
       ],
-      newTask: { id: this.idCounter, description: "", isCompleted: false, isEditing: false},
+      newTask: { id: this.idCounter, description: "", isCompleted: false, isEditing: false, createdTs: 1670608222740},
       filter: TaskFilter.STATE_ALL,
       activeCount: 4,
     };
@@ -102,11 +102,12 @@ export default class TodoApp extends React.Component {
     this.setState((state) => {
       let tasksCopy = JSON.parse(JSON.stringify(state.tasks));
       let newTaskCopy = JSON.parse(JSON.stringify(state.newTask));
+      newTaskCopy.createdTs = Date.now();
       tasksCopy.push(newTaskCopy);
 
       return {
         tasks: tasksCopy,
-        newTask: { id: ++this.idCounter, description: "", isCompleted: false, isEditing: false},
+        newTask: { id: ++this.idCounter, description: "", isCompleted: false, isEditing: false, createdTs: Date.now()},
         activeCount: this.countActiveTasks(tasksCopy),
       }
     });

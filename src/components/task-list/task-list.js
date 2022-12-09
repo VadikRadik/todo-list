@@ -1,9 +1,20 @@
+import { render } from "@testing-library/react";
 import React from "react";
 import Task from "../task";
 
 import "./task-list.css"
 
-const TaskList = ({tasks, onDelete, onToggleComplete, onEditTaskInput, onEditOn, onEditOff}) => {
+export default class TaskList extends React.Component {
+  static defaultProps = {
+    onDelete: () => {}, 
+    onToggleComplete: () => {}, 
+    onEditTaskInput: () => {}, 
+    onEditOn: () => {}, 
+    onEditOff: () => {}, 
+  }
+
+  render() {
+    const {tasks, onDelete, onToggleComplete, onEditTaskInput, onEditOn, onEditOff} = this.props;
     const taskItems = tasks.map(
       task => <Task 
         key={task.id} 
@@ -21,6 +32,6 @@ const TaskList = ({tasks, onDelete, onToggleComplete, onEditTaskInput, onEditOn,
         { taskItems }
       </ul>
     );
+  }
 }
 
-export default TaskList;

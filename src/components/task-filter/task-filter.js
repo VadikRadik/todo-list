@@ -7,6 +7,11 @@ const BUTTON_SELECTED = "task-filter__button--selected";
 
 export default class TaskFilter extends React.Component {
 
+    static defaultProps = {
+        filter: TaskFilter.STATE_ALL, 
+        onFilterSwitch: () => {},
+    }
+
     static get STATE_ALL () {
         return 0;
     }
