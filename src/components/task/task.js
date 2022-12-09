@@ -17,7 +17,12 @@ export default class Task extends React.Component {
         descriptionClass = "task__description task__description--completed";
       } else if (taskProps.isEditing) {
         taskClass = "task--editing";
-        editingInput = <input type="text" className="todo-app__input task__edit" value="Editing task" />;
+        editingInput = <input type="text" 
+          className="todo-app__input task__edit" 
+          onChange={(e) => this.props.onEditTaskInput(id,e)} 
+          value={taskProps.description}
+          onKeyDown={(e) => this.props.onEditOff(id,e)}
+        />;
         viewClass = "task__view--editing";
       }
       
@@ -29,7 +34,7 @@ export default class Task extends React.Component {
               <span className={descriptionClass}>{ taskProps.description }</span>
               <span className="task__created-ago">{formatDistanceToNow(new Date(2014, 6, 2), { addSuffix: true })}</span>
             </label>
-            <button className="task__icon task__icon-edit todo-app__button"></button>
+            <button className="task__icon task__icon-edit todo-app__button" onClick={this.props.onEditOn}></button>
             <button className="task__icon task__icon-destroy todo-app__button" onClick={this.props.onDelete}></button>
           </div>
           { editingInput }

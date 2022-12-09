@@ -42,7 +42,13 @@ export default class TodoApp extends React.Component {
           <NewTaskForm onChange={this.onNewTaskFormInput} onKeyDown={this.onNewTaskKeyDown} value={this.state.newTask.description}/>
         </header>
         <section className="todo-app__main">
-          <TaskList tasks={filteredTasks} onDelete={this.onDeleteHandler} onToggleComplete={this.onToggleCompleteTask} />
+          <TaskList tasks={filteredTasks} 
+            onDelete={this.onDeleteHandler} 
+            onToggleComplete={this.onToggleCompleteTask} 
+            onEditTaskInput={this.onEditTaskInput}
+            onEditOn={this.onEditOn}
+            onEditOff={this.onEditOff}
+          />
           <Footer filter={this.state.filter} 
             onFilterSwitch={this.onFilterSwitch} 
             onClearCompletedClicked={this.onClearCompletedClicked} 
@@ -84,10 +90,7 @@ export default class TodoApp extends React.Component {
       let newTaskCopy = JSON.parse(JSON.stringify(state.newTask));
       newTaskCopy.description = e.target.value;
 
-      return {
-        newTask: newTaskCopy,
-        activeCount: this.countActiveTasks(state.tasks),
-      };
+      return {newTask: newTaskCopy};
     });
   }
 
@@ -106,6 +109,42 @@ export default class TodoApp extends React.Component {
         newTask: { id: ++this.idCounter, description: "", isCompleted: false, isEditing: false},
         activeCount: this.countActiveTasks(tasksCopy),
       }
+    });
+  }
+
+  onEditTaskInput = (taskId, e) => {
+    this.setState((state) => {
+      let tasksCopy = JSON.parse(JSON.stringify(state.tasks));
+      let editingTask = tasksCopy.find(task => task.id === taskId);
+      editingTask.description = e.target.value;
+
+      return {tasks: tasksCopy};
+    });
+  }
+
+  onEditOn = taskId => {
+    this.setState((state) => {
+      let tasksCopy = JSON.parse(JSON.stringify(state.tasks));
+      let editingTask = tasksCopy.find(task => task.id === taskId);
+      if (editingTask.isCompleted === false) {
+        editingTask.isEditing = true;
+      }
+
+      return {tasks: tasksCopy};
+    });
+  }
+
+  onEditOff = (taskId, e) => {
+    if (e.keyCode !== 13) { // Enter
+      return;
+    }
+
+    this.setState((state) => {
+      let tasksCopy = JSON.parse(JSON.stringify(state.tasks));
+      let editingTask = tasksCopy.find(task => task.id === taskId);
+      editingTask.isEditing = false;
+
+      return {tasks: tasksCopy};
     });
   }
 
