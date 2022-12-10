@@ -1,6 +1,6 @@
-import { render } from "@testing-library/react";
 import React from "react";
 import Task from "../task";
+import PropTypes from "prop-types";
 
 import "./task-list.css"
 
@@ -11,6 +11,21 @@ export default class TaskList extends React.Component {
     onEditTaskInput: () => {}, 
     onEditOn: () => {}, 
     onEditOff: () => {}, 
+  }
+
+  static propTypes = {
+    onDelete: PropTypes.func, 
+    onToggleComplete: PropTypes.func, 
+    onEditTaskInput: PropTypes.func, 
+    onEditOn: PropTypes.func, 
+    onEditOff: PropTypes.func,
+    tasks: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      description: PropTypes.string.isRequired,
+      isCompleted: PropTypes.bool.isRequired,
+      isEditing: PropTypes.bool.isRequired,
+      createdTs: PropTypes.number.isRequired,
+    })).isRequired,
   }
 
   render() {

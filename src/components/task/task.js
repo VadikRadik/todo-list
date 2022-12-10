@@ -1,5 +1,6 @@
 import React from "react";
 import { formatDistanceToNow } from 'date-fns';
+import PropTypes from "prop-types";
 
 import "./task.css";
 
@@ -10,6 +11,21 @@ export default class Task extends React.Component {
       onEditTaskInput: () => {},
       onEditOn: () => {},
       onEditOff: () => {},
+    }
+
+    static propTypes = {
+      onDelete: PropTypes.func, 
+      onToggleComplete: PropTypes.func, 
+      onEditTaskInput: PropTypes.func, 
+      onEditOn: PropTypes.func, 
+      onEditOff: PropTypes.func,
+      task: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        description: PropTypes.string.isRequired,
+        isCompleted: PropTypes.bool.isRequired,
+        isEditing: PropTypes.bool.isRequired,
+        createdTs: PropTypes.number.isRequired,
+      }).isRequired,
     }
     
     render() {

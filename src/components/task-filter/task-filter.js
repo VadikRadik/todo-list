@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import "./task-filter.css";
 
@@ -10,6 +11,11 @@ export default class TaskFilter extends React.Component {
     static defaultProps = {
         filter: TaskFilter.STATE_ALL, 
         onFilterSwitch: () => {},
+    }
+
+    static propTypes = {
+        onFilterSwitch: PropTypes.func,
+        filter: PropTypes.oneOf([TaskFilter.STATE_ALL, TaskFilter.STATE_ACTIVE, TaskFilter.STATE_COMPLETED]),
     }
 
     static get STATE_ALL () {

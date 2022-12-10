@@ -15,7 +15,7 @@ export default class TodoApp extends React.Component {
     this.state = {
       tasks: [
         { id: 0, description: "Completed test task", isCompleted: true, isEditing: false, createdTs: 1670608222740},
-        { id: 1, description: "Press enter for finish editing", isCompleted: false, isEditing: true, createdTs: 1670608222740},
+        { id: 1, description: "Press enter to finish editing", isCompleted: false, isEditing: true, createdTs: 1670608222740},
         { id: 2, description: "Active test task 1", isCompleted: false, isEditing: false, createdTs: 1670608222740},
         { id: 3, description: "Active test task 2", isCompleted: false, isEditing: false, createdTs: 1670608222740},
         { id: 4, description: "Active test task 3", isCompleted: true, isEditing: false, createdTs: 1670608222740},
