@@ -1,3 +1,3 @@
-import TodoApp from "./todo-app";
+import TodoApp from './todo-app'
 
-export default TodoApp;
+export default TodoApp
