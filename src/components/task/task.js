@@ -1,6 +1,7 @@
 import React from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 
 import './task.css'
 
@@ -31,15 +32,14 @@ export default class Task extends React.Component {
   render() {
     const { id, ...taskProps } = this.props.task
 
-    let taskClass = 'task'
-    let viewClass = 'task__view'
-    let descriptionClass = 'task__description'
-    let editingInput = null
+    // eslint-disable-next-line prettier/prettier
+    let taskClass = classNames({ task: !taskProps.isEditing }, { 'task--editing': taskProps.isEditing })
+    // eslint-disable-next-line prettier/prettier
+    let viewClass = classNames({ task__view: !taskProps.isEditing }, { 'task__view--editing': taskProps.isEditing })
+    let descriptionClass = classNames('task__description', { 'task__description--completed': taskProps.isCompleted })
 
-    if (taskProps.isCompleted) {
-      descriptionClass = 'task__description task__description--completed'
-    } else if (taskProps.isEditing) {
-      taskClass = 'task--editing'
+    let editingInput = null
+    if (taskProps.isEditing) {
       editingInput = (
         <input
           type="text"
@@ -49,7 +49,6 @@ export default class Task extends React.Component {
           onKeyDown={(e) => this.props.onEditOff(id, e)}
         />
       )
-      viewClass = 'task__view--editing'
     }
 
     return (
