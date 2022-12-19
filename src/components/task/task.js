@@ -32,9 +32,7 @@ export default class Task extends React.Component {
   render() {
     const { id, ...taskProps } = this.props.task
 
-    // eslint-disable-next-line prettier/prettier
     let taskClass = classNames({ task: !taskProps.isEditing }, { 'task--editing': taskProps.isEditing })
-    // eslint-disable-next-line prettier/prettier
     let viewClass = classNames({ task__view: !taskProps.isEditing }, { 'task__view--editing': taskProps.isEditing })
     let descriptionClass = classNames('task__description', { 'task__description--completed': taskProps.isCompleted })
 
