@@ -100,6 +100,10 @@
 	color: gray;
 }
 
+.task__timer-value {
+	margin-left: 5px;
+}
+
 .task__label {
 	display: flex;
 	align-items: center;

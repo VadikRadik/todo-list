@@ -12,6 +12,8 @@ export default class TaskList extends React.Component {
     onEditTaskInput: () => {},
     onEditOn: () => {},
     onEditOff: () => {},
+    onTimerStart: () => {},
+    onTimerStop: () => {},
   }
 
   static propTypes = {
@@ -20,6 +22,8 @@ export default class TaskList extends React.Component {
     onEditTaskInput: PropTypes.func,
     onEditOn: PropTypes.func,
     onEditOff: PropTypes.func,
+    onTimerStart: PropTypes.func,
+    onTimerStop: PropTypes.func,
     tasks: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number.isRequired,
@@ -27,12 +31,17 @@ export default class TaskList extends React.Component {
         isCompleted: PropTypes.bool.isRequired,
         isEditing: PropTypes.bool.isRequired,
         createdTs: PropTypes.number.isRequired,
+        timerElapsedSec: PropTypes.number.isRequired,
+        isTimerRun: PropTypes.bool.isRequired,
+        timerLastToggleTs: PropTypes.number,
       })
     ).isRequired,
   }
 
   render() {
-    const { tasks, onDelete, onToggleComplete, onEditTaskInput, onEditOn, onEditOff } = this.props
+    const { tasks, onDelete, onToggleComplete, onEditTaskInput, onEditOn, onEditOff, onTimerStart, onTimerStop } =
+      this.props
+
     const taskItems = tasks.map((task) => (
       <Task
         key={task.id}
@@ -42,6 +51,8 @@ export default class TaskList extends React.Component {
         onEditTaskInput={onEditTaskInput}
         onEditOn={() => onEditOn(task.id)}
         onEditOff={onEditOff}
+        onTimerStart={() => onTimerStart(task.id)}
+        onTimerStop={() => onTimerStop(task.id)}
       />
     ))
 

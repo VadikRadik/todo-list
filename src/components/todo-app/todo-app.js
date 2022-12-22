@@ -10,27 +10,74 @@ import TaskFilter from '../task-filter'
 export default class TodoApp extends React.Component {
   idCounter = 10
 
+  newTaskTemplate = {
+    id: this.idCounter,
+    description: '',
+    isCompleted: false,
+    isEditing: false,
+    createdTs: 1670608222740,
+    timerElapsedSec: 30,
+    isTimerRun: false,
+    timerLastToggleTs: null,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       tasks: [
-        { id: 0, description: 'Completed test task', isCompleted: true, isEditing: false, createdTs: 1670608222740 },
+        {
+          id: 0,
+          description: 'Task 0',
+          isCompleted: true,
+          isEditing: false,
+          createdTs: 1670608222740,
+          timerElapsedSec: 602,
+          isTimerRun: false,
+          timerLastToggleTs: null,
+        },
         {
           id: 1,
           description: 'Press enter to finish editing',
           isCompleted: false,
           isEditing: true,
           createdTs: 1670608222740,
+          timerElapsedSec: 30,
+          isTimerRun: false,
+          timerLastToggleTs: null,
         },
-        { id: 2, description: 'Active test task 1', isCompleted: false, isEditing: false, createdTs: 1670608222740 },
-        { id: 3, description: 'Active test task 2', isCompleted: false, isEditing: false, createdTs: 1670608222740 },
-        { id: 4, description: 'Active test task 3', isCompleted: true, isEditing: false, createdTs: 1670608222740 },
-        { id: 5, description: 'Active test task 4', isCompleted: false, isEditing: false, createdTs: 1670608222740 },
+        {
+          id: 2,
+          description: 'Task 2',
+          isCompleted: true,
+          isEditing: false,
+          createdTs: 1670608222740,
+          timerElapsedSec: 42,
+          isTimerRun: false,
+          timerLastToggleTs: null,
+        },
+        {
+          id: 3,
+          description: 'Task 3',
+          isCompleted: false,
+          isEditing: false,
+          createdTs: 1670608222740,
+          timerElapsedSec: 30,
+          isTimerRun: true,
+          timerLastToggleTs: 1670608222740,
+        },
       ],
-      newTask: { id: this.idCounter, description: '', isCompleted: false, isEditing: false, createdTs: 1670608222740 },
+      newTask: this.newTaskTemplate,
       filter: TaskFilter.STATE_ALL,
-      activeCount: 4,
+      activeCount: 2,
     }
+  }
+
+  componentDidMount() {
+    window.addEventListener('storage', () => this.setState(JSON.parse(window.localStorage.getItem('all_tasks_state'))))
+  }
+
+  componentDidUpdate() {
+    window.localStorage.setItem('all_tasks_state', JSON.stringify(this.state))
   }
 
   render() {
@@ -59,6 +106,8 @@ export default class TodoApp extends React.Component {
             onEditTaskInput={this.onEditTaskInput}
             onEditOn={this.onEditOn}
             onEditOff={this.onEditOff}
+            onTimerStart={this.onTimerStart}
+            onTimerStop={this.onTimerStop}
           />
           <Footer
             filter={this.state.filter}
@@ -122,7 +171,7 @@ export default class TodoApp extends React.Component {
 
       return {
         tasks: tasksCopy,
-        newTask: { id: ++this.idCounter, description: '', isCompleted: false, isEditing: false, createdTs: Date.now() },
+        newTask: this.newTaskTemplate,
         activeCount: this.countActiveTasks(tasksCopy),
       }
     })
@@ -184,5 +233,30 @@ export default class TodoApp extends React.Component {
       acc += !task.isCompleted ? 1 : 0
       return acc
     }, 0)
+  }
+
+  onTimerStart = (taskId) => {
+    console.log('timer run' + taskId)
+    this.setState((state) => {
+      let tasksCopy = JSON.parse(JSON.stringify(state.tasks))
+      let startedTask = tasksCopy.find((task) => task.id === taskId)
+      startedTask.isTimerRun = true
+      startedTask.timerLastToggleTs = Date.now()
+
+      return { tasks: tasksCopy }
+    })
+  }
+
+  onTimerStop = (taskId) => {
+    console.log('timer stopped ' + taskId)
+    this.setState((state) => {
+      let tasksCopy = JSON.parse(JSON.stringify(state.tasks))
+      let stoppedTask = tasksCopy.find((task) => task.id === taskId)
+      stoppedTask.isTimerRun = false
+      stoppedTask.timerElapsedSec += Math.round((Date.now() - stoppedTask.timerLastToggleTs) / 1000)
+      stoppedTask.timerLastToggleTs = Date.now()
+
+      return { tasks: tasksCopy }
+    })
   }
 }
