@@ -17,14 +17,18 @@ export default class NewTaskForm extends React.Component {
 
   render() {
     return (
-      <input
-        className="todo-app__input new-task-form"
-        placeholder="What needs to be done?"
-        autoFocus
-        onChange={this.props.onChange}
-        onKeyDown={this.props.onKeyDown}
-        value={this.props.value}
-      />
+      <form className="new-todo-form">
+        <input
+          className="todo-app__input new-todo-form__new-task"
+          placeholder="Task"
+          autoFocus
+          onChange={this.props.onChange}
+          onKeyDown={this.props.onKeyDown}
+          value={this.props.value}
+        />
+        <input className="todo-app__input new-todo-form__timer" placeholder="Min" autoFocus />
+        <input className="todo-app__input new-todo-form__timer" placeholder="Sec" autoFocus />
+      </form>
     )
   }
 }

@@ -61,6 +61,11 @@ export default class Task extends React.Component {
           <label className="task__label" onClick={this.props.onToggleComplete}>
             <span className={descriptionClass}>{taskProps.description}</span>
             <span className="task__created-ago">
+              <button className="task__icon task__icon-play todo-app__button"></button>
+              <button className="task__icon task__icon-pause todo-app__button"></button>
+              12:25
+            </span>
+            <span className="task__created-ago">
               {formatDistanceToNow(new Date(taskProps.createdTs), { addSuffix: true })}
             </span>
           </label>

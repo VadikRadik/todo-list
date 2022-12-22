@@ -17,14 +17,15 @@
 	margin-bottom: -1px;
 }
 
+.task__view {
+	position: relative;
+}
+
 .task__view--editing {
 	display: none;
 }
 
 .task__icon {
-	position: absolute;
-	top: 0;
-	bottom: -3px;
 	width: 30px;
 	height: 40px;
 	font-size: 34px;
@@ -39,6 +40,9 @@
 }
 
 .task__icon-destroy {
+	position: absolute;
+	top: 0;
+	bottom: -3px;
 	right: 10px;
 }
 
@@ -47,12 +51,34 @@
 }
 
 .task__icon-edit {
+	position: absolute;
+	top: 0;
+	bottom: -3px;
 	font-size: 19px;
 	right: 45px;
 }
 
 .task__icon-edit:after {
 	content: '✎';
+}
+
+.task__icon-pause,
+.task__icon-play {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+.task__icon-play {
+	font-size: 15px;
+}
+
+.task__icon-pause:after {
+	content: '⏸';
+}
+
+.task__icon-play:after {
+	content: '▶';
 }
 
 .task__description {
