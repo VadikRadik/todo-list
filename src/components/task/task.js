@@ -71,9 +71,7 @@ export default class Task extends React.Component {
   }
 
   stopTimer = () => {
-    console.log('timer stopped' + this.state.timerId)
     if (this.state.timerId !== null) {
-      console.log('!!!!!!!d' + this.state.timerId)
       clearInterval(this.state.timerId)
       this.setState(() => ({ timerId: null }))
     }
@@ -96,6 +94,13 @@ export default class Task extends React.Component {
       minutes %= 60
     }
     return `${hours ? hours + ':' : ''}${minutes < 10 ? '0' + minutes : minutes}:${sec < 10 ? '0' + sec : sec}`
+  }
+
+  stopTimerHandler = () => {
+    if (this.props.task.isTimerRun && !this.props.task.isCompleted) {
+      this.stopTimer()
+      this.props.onTimerStop()
+    }
   }
 
   render() {
@@ -128,29 +133,27 @@ export default class Task extends React.Component {
             onChange={this.props.onToggleComplete}
           />
           <label className="task__label" htmlFor={'descr ' + id}>
-            <span id={'descr ' + id} className={descriptionClass} onClick={this.props.onToggleComplete}>
+            <span
+              id={'descr ' + id}
+              className={descriptionClass}
+              onClick={() => {
+                this.props.onToggleComplete()
+                this.stopTimerHandler()
+              }}
+            >
               {taskProps.description}
             </span>
             <span className="task__created-ago">
               <button
                 className="task__icon task__icon-play todo-app__button"
                 onClick={() => {
-                  console.log('button start clicked')
                   if (!this.props.task.isTimerRun && !this.props.task.isCompleted) {
                     this.startTimer()
                     this.props.onTimerStart()
                   }
                 }}
               ></button>
-              <button
-                className="task__icon task__icon-pause todo-app__button"
-                onClick={() => {
-                  if (this.props.task.isTimerRun && !this.props.task.isCompleted) {
-                    this.stopTimer()
-                    this.props.onTimerStop()
-                  }
-                }}
-              ></button>
+              <button className="task__icon task__icon-pause todo-app__button" onClick={this.stopTimerHandler}></button>
               <span className="task__timer-value">{this.formatSec(this.state.totalSec)}</span>
             </span>
             <span className="task__created-ago">
