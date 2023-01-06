@@ -5,7 +5,7 @@ import './todo-app.css'
 import Footer from '../footer'
 import NewTaskForm from '../new-task-form'
 import TaskList from '../task-list'
-import TaskFilter from '../task-filter'
+import { TaskFilterStates } from '../task-filter/task-filter'
 
 export default class TodoApp extends React.Component {
   newTaskTemplate = {
@@ -66,7 +66,7 @@ export default class TodoApp extends React.Component {
         },
       ],
       newTask: this.newTaskTemplate,
-      filter: TaskFilter.STATE_ALL,
+      filter: TaskFilterStates.STATE_ALL,
       activeCount: 2,
       idCounter: 10,
     }
@@ -82,9 +82,9 @@ export default class TodoApp extends React.Component {
 
   render() {
     let filteredTasks = this.state.tasks
-    if (this.state.filter === TaskFilter.STATE_ACTIVE) {
+    if (this.state.filter === TaskFilterStates.STATE_ACTIVE) {
       filteredTasks = this.state.tasks.filter((task) => task.isCompleted === false)
-    } else if (this.state.filter === TaskFilter.STATE_COMPLETED) {
+    } else if (this.state.filter === TaskFilterStates.STATE_COMPLETED) {
       filteredTasks = this.state.tasks.filter((task) => task.isCompleted === true)
     }
 
