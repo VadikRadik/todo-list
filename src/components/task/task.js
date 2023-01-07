@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import classNames from 'classnames'
 
@@ -52,7 +52,7 @@ const Task = (props) => {
   )
   const [timerId, setTimerId] = useState(null)
 
-  const startTimerCallback = useCallback(() =>
+  const startTimerCallback = () => {
     startTimer(
       props.task.isTimerRun,
       props.task.timerLastToggleTs,
@@ -61,7 +61,7 @@ const Task = (props) => {
       setTimerId,
       timerId
     )
-  )
+  }
 
   useEffect(() => {
     if (props.task.isTimerRun) {
